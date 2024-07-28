@@ -57,10 +57,11 @@ public class IngresarClientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(136, 149, 179));
+        jPanel1.setBackground(new java.awt.Color(255, 229, 255));
 
-        jPanel2.setBackground(new java.awt.Color(136, 149, 179));
+        jPanel2.setBackground(new java.awt.Color(255, 229, 255));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("DATOS CLIENTE");
 
         jLabelNombre.setText("NOMBRE");
@@ -94,16 +95,16 @@ public class IngresarClientes extends javax.swing.JFrame {
                     .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(265, 265, 265)
+                .addGap(235, 235, 235)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNombre)
                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,7 +119,7 @@ public class IngresarClientes extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(136, 149, 179));
+        jPanel3.setBackground(new java.awt.Color(255, 229, 255));
 
         jButtonCommit.setBackground(new java.awt.Color(218, 182, 252));
         jButtonCommit.setText("COMMIT");
@@ -192,6 +193,7 @@ public class IngresarClientes extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,6 +221,7 @@ public class IngresarClientes extends javax.swing.JFrame {
     private void jButtonStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonStartMouseClicked
         try {
             conexion.setAutoCommit(false);
+            JOptionPane.showMessageDialog(this, "Transacción iniciada.", "Transacción", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -228,43 +231,38 @@ public class IngresarClientes extends javax.swing.JFrame {
         String nombre = jTextFieldNombre.getText();
         String apellido = jTextFieldApellido1.getText();
         String direccion = jTextFieldDireccion.getText();
+        String telefono = jTextFieldTelefono.getText();
 
-        ConexionCliente Cliente = new ConexionCliente();
-        
+        boolean rc = clientes.agregar(conexion, nombre, apellido, direccion);
+
+        ResultSet resultCliente = clientes.idCliente(conexion, nombre, apellido);
+        resultCliente.next();
+        id = resultCliente.getInt("ID_Cliente");
+        boolean resultTelefono = Telefono.agregar(conexion, telefono, id);
+
+        if (rc && resultTelefono) {
+            JOptionPane.showMessageDialog(this, "Se ha insertado un cliente exitosamente.", "Nuevo cliente",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Ha habido un error compruebe la información", "Nuevo cliente",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
     private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
         try {
-            String nombre = jTextFieldNombre.getText();
-            String apellido = jTextFieldApellido1.getText();
-            String direccion = jTextFieldDireccion.getText();
-            String telefono = jTextFieldTelefono.getText();
-            
-            boolean rc = clientes.agregar(conexion, nombre, apellido, direccion);
-            
-            ResultSet resultCliente = clientes.idCliente(conexion, nombre ,apellido);
-            resultCliente.next();
-            id = resultCliente.getInt("ID_Cliente");
-            boolean resultTelefono = Telefono.agregar(conexion, telefono, id);
-            
-            if (rc) {
-                JOptionPane.showMessageDialog(this, "Se ha insertado un cliente exitosamente.", "Nuevo cliente",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Ha habido un error "
-                        + "compruebe la información", "Nuevo cliente",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+            guardar();
         } catch (SQLException ex) {
             Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "Ha habido un error "
-                    + "compruebe la información", "Nuevo cliente",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ha habido un error compruebe la información", "Nuevo cliente",
+                JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonGuardarMouseClicked
 
     private void jButtonCommitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCommitMouseClicked
         try {
             conexion.commit();
+            conexion.setAutoCommit(true);
+            JOptionPane.showMessageDialog(this, "Transacción realizada con éxito.", "Transacción", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -273,6 +271,8 @@ public class IngresarClientes extends javax.swing.JFrame {
     private void jButtonRollbackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRollbackMouseClicked
         try {
             conexion.rollback();
+            conexion.setAutoCommit(true);
+            JOptionPane.showMessageDialog(this, "Transacción revertida.", "Transacción", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
         }

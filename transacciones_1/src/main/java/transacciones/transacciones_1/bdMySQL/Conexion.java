@@ -1,4 +1,4 @@
-package transacciones.transacciones_1bdMySQL;
+package transacciones.transacciones_1.bdMySQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class Conexion {
     public Connection obtenerConexion() {
         if (conexion == null) {
             try {
-                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/transacciones_1?serverTimezone=UTC", "root","");
+                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/transacciones_1?serverTimezone=UTC", "root","Casor!karma290");
                 System.out.println("Conexión establecida correctamente.");
             } catch (SQLException e) {
                 System.out.println("Error al conectar a la base de datos: " + e.getMessage());
