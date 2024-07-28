@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package transacciones.transacciones_1;
 
 /**
@@ -11,6 +7,8 @@ package transacciones.transacciones_1;
 public class Transacciones_1 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        IngresarClientes screen = new IngresarClientes();
+        screen.setVisible(true);
+        screen.setLocationRelativeTo(null);
     }
 }
