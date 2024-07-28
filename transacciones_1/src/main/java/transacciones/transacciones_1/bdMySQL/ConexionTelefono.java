@@ -10,13 +10,18 @@ import java.sql.SQLException;
 public class ConexionTelefono {
     public boolean agregar(Connection conexion, String numero, int idForanea) throws SQLException{
         
+        try{
+        
         String sql = "INSERT INTO Telefono (Numero, Cliente_ID_Cliente) "
                 + "VALUES (?, ?)";
         PreparedStatement stmt = conexion.prepareStatement(sql);
         stmt.setString(1, numero);
         stmt.setInt(2, idForanea);
-        // ejecutar la consulta
-        int filasAfectadas = stmt.executeUpdate();
-        return filasAfectadas > 0;
+        stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
