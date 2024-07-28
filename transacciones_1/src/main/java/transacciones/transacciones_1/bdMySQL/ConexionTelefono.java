@@ -1,4 +1,4 @@
-package transacciones.transacciones_1bdMySQL;
+package transacciones.transacciones_1.bdMySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -2,6 +2,13 @@
 package transacciones.transacciones_1;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import transacciones.transacciones_1.bdMySQL.Conexion;
 import transacciones.transacciones_1.bdMySQL.ConexionCliente;
 import transacciones.transacciones_1.bdMySQL.ConexionTelefono;
@@ -12,11 +19,16 @@ import transacciones.transacciones_1.bdMySQL.ConexionTelefono;
 public class IngresarClientes extends javax.swing.JFrame {
 
     private Connection conexion;
+    private ConexionCliente clientes;
+    private ConexionTelefono Telefono;
+    private int id;
     
     
     public IngresarClientes() {
         Conexion conexion = new Conexion();
         this.conexion = conexion.obtenerConexion();
+        clientes = new ConexionCliente();
+        Telefono = new ConexionTelefono();
         
         initComponents();
     }
@@ -110,9 +122,19 @@ public class IngresarClientes extends javax.swing.JFrame {
 
         jButtonCommit.setBackground(new java.awt.Color(218, 182, 252));
         jButtonCommit.setText("COMMIT");
+        jButtonCommit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCommitMouseClicked(evt);
+            }
+        });
 
         jButtonRollback.setBackground(new java.awt.Color(218, 182, 252));
         jButtonRollback.setText("ROLLBACK");
+        jButtonRollback.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonRollbackMouseClicked(evt);
+            }
+        });
 
         jButtonStart.setBackground(new java.awt.Color(218, 182, 252));
         jButtonStart.setText("START");
@@ -124,6 +146,11 @@ public class IngresarClientes extends javax.swing.JFrame {
 
         jButtonGuardar.setBackground(new java.awt.Color(218, 182, 252));
         jButtonGuardar.setText("GUARDAR");
+        jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGuardarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -190,8 +217,66 @@ public class IngresarClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonStartMouseClicked
-        // TODO add your handling code here:
+        try {
+            conexion.setAutoCommit(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonStartMouseClicked
+
+    private void guardar() throws SQLException {
+        String nombre = jTextFieldNombre.getText();
+        String apellido = jTextFieldApellido1.getText();
+        String direccion = jTextFieldDireccion.getText();
+
+        ConexionCliente Cliente = new ConexionCliente();
+        
+    }
+    private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
+        try {
+            String nombre = jTextFieldNombre.getText();
+            String apellido = jTextFieldApellido1.getText();
+            String direccion = jTextFieldDireccion.getText();
+            String telefono = jTextFieldTelefono.getText();
+            
+            boolean rc = clientes.agregar(conexion, nombre, apellido, direccion);
+            
+            ResultSet resultCliente = clientes.idCliente(conexion, nombre ,apellido);
+            resultCliente.next();
+            id = resultCliente.getInt("ID_Cliente");
+            boolean resultTelefono = Telefono.agregar(conexion, telefono, id);
+            
+            if (rc) {
+                JOptionPane.showMessageDialog(this, "Se ha insertado un cliente exitosamente.", "Nuevo cliente",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Ha habido un error "
+                        + "compruebe la información", "Nuevo cliente",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Ha habido un error "
+                    + "compruebe la información", "Nuevo cliente",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonGuardarMouseClicked
+
+    private void jButtonCommitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCommitMouseClicked
+        try {
+            conexion.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonCommitMouseClicked
+
+    private void jButtonRollbackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRollbackMouseClicked
+        try {
+            conexion.rollback();
+        } catch (SQLException ex) {
+            Logger.getLogger(IngresarClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonRollbackMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
