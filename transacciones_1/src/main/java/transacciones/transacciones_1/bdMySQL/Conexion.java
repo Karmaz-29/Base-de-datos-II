@@ -11,11 +11,20 @@ import java.sql.SQLException;
 public class Conexion {
     private static Connection conexion;
     
-    public Connection obtenerConexion() {
+    public Connection obtenerConexion(String aislamiento) {
         if (conexion == null) {
             try {
-                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/transacciones_1?serverTimezone=UTC", "root","Casor!karma290");
+                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/transacciones_1?serverTimezone=UTC", "root","Bromi.22AY04");
                 System.out.println("Conexión establecida correctamente.");
+                if (aislamiento == "Lecturas No Comprometidas") {
+                    conexion.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+                } else if (aislamiento == "Lecturas Comprometidas") {
+                    conexion.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                } else if (aislamiento == "Lecturas Repetibles") {
+                    conexion.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+                } else if (aislamiento == "Serializable") {
+                    conexion.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                }
             } catch (SQLException e) {
                 System.out.println("Error al conectar a la base de datos: " + e.getMessage());
             }

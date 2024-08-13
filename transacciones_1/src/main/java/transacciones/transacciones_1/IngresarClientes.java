@@ -24,9 +24,9 @@ public class IngresarClientes extends javax.swing.JFrame {
     private int id;
     
     
-    public IngresarClientes() {
+    public IngresarClientes(String aislamiento) {
         Conexion conexion = new Conexion();
-        this.conexion = conexion.obtenerConexion();
+        this.conexion = conexion.obtenerConexion(aislamiento);
         clientes = new ConexionCliente();
         Telefono = new ConexionTelefono();
         

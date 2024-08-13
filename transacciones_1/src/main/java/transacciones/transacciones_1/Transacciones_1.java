@@ -7,7 +7,7 @@ package transacciones.transacciones_1;
 public class Transacciones_1 {
 
     public static void main(String[] args) {
-        IngresarClientes screen = new IngresarClientes();
+        SeleccionarNivelAislamiento screen = new SeleccionarNivelAislamiento();
         screen.setVisible(true);
         screen.setLocationRelativeTo(null);
     }
