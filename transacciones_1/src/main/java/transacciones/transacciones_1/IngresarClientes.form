@@ -232,7 +232,9 @@
                       <Component id="jButtonRollback" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="jButtonRegresar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -245,6 +247,7 @@
                           <Component id="jButtonRollback" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonStart" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
@@ -294,6 +297,17 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonGuardarMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonRegresar">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fc" green="b6" red="da" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="REGRESAR"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonRegresarMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>

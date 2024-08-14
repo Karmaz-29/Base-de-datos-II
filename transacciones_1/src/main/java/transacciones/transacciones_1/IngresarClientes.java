@@ -56,6 +56,7 @@ public class IngresarClientes extends javax.swing.JFrame {
         jButtonRollback = new javax.swing.JButton();
         jButtonStart = new javax.swing.JButton();
         jButtonGuardar = new javax.swing.JButton();
+        jButtonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,6 +185,14 @@ public class IngresarClientes extends javax.swing.JFrame {
             }
         });
 
+        jButtonRegresar.setBackground(new java.awt.Color(218, 182, 252));
+        jButtonRegresar.setText("REGRESAR");
+        jButtonRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonRegresarMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -197,7 +206,9 @@ public class IngresarClientes extends javax.swing.JFrame {
                 .addComponent(jButtonRollback)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonGuardar)
-                .addGap(52, 52, 52))
+                .addGap(35, 35, 35)
+                .addComponent(jButtonRegresar)
+                .addGap(54, 54, 54))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +218,8 @@ public class IngresarClientes extends javax.swing.JFrame {
                     .addComponent(jButtonCommit)
                     .addComponent(jButtonRollback)
                     .addComponent(jButtonStart)
-                    .addComponent(jButtonGuardar))
+                    .addComponent(jButtonGuardar)
+                    .addComponent(jButtonRegresar))
                 .addGap(31, 31, 31))
         );
 
@@ -347,10 +359,18 @@ public class IngresarClientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonVerTelefonosMouseClicked
 
+    private void jButtonRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRegresarMouseClicked
+        SeleccionarNivelAislamiento screen = new SeleccionarNivelAislamiento();
+        screen.setVisible(true);
+        screen.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_jButtonRegresarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCommit;
     private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JButton jButtonRegresar;
     private javax.swing.JButton jButtonRollback;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JButton jButtonVerClieentes;
